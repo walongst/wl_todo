@@ -1,0 +1,44 @@
+<!-- todo_list/todo_app/templates/todo_app/todoitem_form.html -->
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if request.user.is_authenticated %}
+    <p>{{request.user}}</p>
+    <a href="{% url 'logout' %}">Logout</a>
+{% else %}
+    <a href="login">Login</a>   
+{% endif %}
+
+
+
+
+<hr>
+{% if todo_list %}
+<h3>All my tasks</h3>
+{% endif %}
+
+
+<h3>{{ title }}</h3>
+<form method="POST",>
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+    </table>
+    <input
+        value="Submit"
+        type="submit">
+    <input
+        value="Cancel"
+        type="button"
+        onclick="location.href='{% url "index" %}'">
+    {% if object %}
+        <input
+            value="Delete this item"
+            type="button"
+            onclick="location.href=
+            '{% url "item-delete" todo_list.id object.id %}'">
+    {% endif %}
+</form>
+
+{% endblock %}
